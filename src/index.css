@@ -1,0 +1,234 @@
+@font-face {
+  font-family: "Baloo Bhaijaan 2";
+  src: url("/assets/fonts/BalooBhaijaan2-Regular.ttf");
+  font-style: normal;
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: "Baloo Bhaijaan 2";
+  src: url("/assets/fonts/BalooBhaijaan2-Medium.ttf");
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: "Baloo Bhaijaan 2";
+  src: url("/assets/fonts/BalooBhaijaan2-SemiBold.ttf");
+  font-weight: 600;
+}
+
+@font-face {
+  font-family: "Gochi Hand";
+  src: url("/assets/fonts/GochiHand-Regular.ttf");
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+.header {
+  @apply flex justify-between items-center space-x-1 md:space-x-5 flex-wrap lg:flex-nowrap space-y-5 overflow-x-hidden;
+}
+
+.main-container {
+  @apply grid grid-flow-row grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 grid-rows-2 gap-x-3 gap-y-5 mt-9;
+}
+
+.footer {
+  @apply mt-9 mb-5 flex justify-between items-center flex-wrap space-x-0 sm:space-x-5 space-y-7 lg:space-y-0;
+}
+
+.goal-number {
+  @apply w-6 h-6 bg-gradient-to-r from-secondary to-primary rounded-tl-md rounded-tr-xl rounded-bl-xl rounded-br-md font-display text-xl text-tertiary flex justify-center items-center pt-1;
+}
+
+.goal-input {
+  @apply flex-1 border-b border-t-0 border-l-0 border-r-0 border-gray-400 bg-transparent font-body text-lg leading-tight focus:ring-primary focus:ring-2 focus:border-transparent pt-1 pb-0 px-0 mx-2;
+}
+
+.goal-checkbox {
+  @apply w-6 h-6 text-secondary focus:ring-primary border-2 border-tertiary rounded-tl-md rounded-tr-md rounded-bl-md rounded-br-lg;
+}
+
+.tracker-name {
+  @apply bg-tertiary text-white font-display leading-8 px-4 rounded-tl-md rounded-tr-xl rounded-bl-xl rounded-br-md tracking-wide w-max;
+}
+
+.drop-input {
+  @apply w-7 h-7 -ml-1 font-body font-semibold text-tertiary border-2 border-tertiary text-sm text-center focus:shadow-none focus:ring-primary focus:ring-2 focus:border-tertiary p-0 mt-2 rounded-full -rotate-45;
+  border-top-right-radius: 0;
+}
+
+.health-tracker-container {
+  @apply flex flex-col items-start sm:items-center flex-1 max-w-sm min-w-full lg:min-w-max overflow-y-hidden overflow-x-auto;
+}
+
+.dot-bg {
+  background-image: radial-gradient(#e0e0e0 10%, transparent 11%),
+    radial-gradient(#e0e0e0 10%, transparent 11%);
+  background-size: 20px 20px;
+  background-position: 0 0;
+  background-repeat: repeat;
+}
+
+.line-bg {
+  background-size: 32px 29px;
+  background-image: repeating-linear-gradient(0deg, #e0e0e0, #e0e0e0 1px, white 1px, white);
+}
+
+.week-day-textarea {
+  @apply w-full h-full flex-1 -mt-3 border-none resize-none bg-transparent px-1 py-3 font-body focus:ring-primary focus:ring-2 focus:border-transparent;
+}
+
+.prepare-next-week {
+  @apply text-center font-display text-lg text-transparent bg-clip-text bg-gradient-to-r from-secondary to-primary;
+}
+
+.emoji-active {
+  @apply relative;
+}
+
+.emoji-active:before {
+  content: "";
+  left: -25px;
+  z-index: -1;
+  background-size: 90px 90px;
+  background-image: url('/assets/splash.svg');
+  @apply absolute w-[90px] h-[90px] -top-8;
+}
+
+.emoji-active svg {
+  @apply w-8;
+}
+
+.emoji-active svg * {
+  @apply fill-white;
+}
+
+.icon-primary * {
+  @apply text-secondary fill-current;  
+}
+
+.emoji-splash {
+  @apply relative;
+}
+
+.emoji-splash svg {
+  @apply relative;
+}
+
+.emoji-splash svg * {
+  @apply fill-white;
+}
+
+.emoji-splash:before {
+  content: "";
+  background-size: 60px 60px;
+  background-image: url('/assets/splash.svg');
+  @apply absolute w-[60px] h-[60px] z-0 -left-4 -top-5;
+}
+
+.modal {
+  @apply !m-0;
+}
+
+.footer-date-container {
+  @apply flex space-x-2 justify-center md:justify-end items-end md:flex-1 flex-wrap sm:flex-nowrap;
+}
+
+.footer-actions-container {
+  @apply flex space-x-3 sm:space-x-5 ml-8 justify-center flex-1 lg:flex-initial lg:justify-end;
+}
+
+.DayPicker-Caption {
+  @apply font-display text-lg tracking-wide text-tertiary !px-0;
+}
+
+.DayPicker-Month {
+  @apply min-w-full;
+}
+
+.DayPicker-WeekNumber {
+  @apply !cursor-default;
+}
+
+.DayPicker-Day--hoverRange {
+  @apply !rounded-none;
+}
+
+.DayPicker-Day--selected {
+  @apply !rounded-none;
+}
+
+.DayPicker-Day--selected:hover {
+  @apply !bg-inherit;
+}
+
+.DayPicker-Day--selected:last-child {
+  @apply !rounded-tl-none !rounded-tr-xl !rounded-bl-none !rounded-br-md;
+}
+
+.DayPicker-Day--selectedRangeStart {
+  @apply !rounded-tl-md !rounded-tr-none !rounded-bl-xl !rounded-br-none;
+}
+
+.DayPicker-Day--hoverRange:not(.DayPicker-Day--disabled, .DayPicker-Day--selected) {
+  @apply !bg-gray-200;
+}
+
+.DayPicker-Day--hoverRange.DayPicker-Day--hoverRangeStart {
+  @apply !rounded-tl-md !rounded-tr-none !rounded-bl-xl !rounded-br-none;
+}
+
+.DayPicker-Day--hoverRange.DayPicker-Day--hoverRangeEnd {
+  @apply !rounded-tl-none !rounded-tr-xl !rounded-bl-none !rounded-br-md;
+}
+
+.DayPicker-Week .DayPicker-Day--selected {
+ @apply !bg-primary;
+}
+
+.DayPicker-Week .DayPicker-Day--selected.DayPicker-Day--outside {
+ @apply !text-gray-200;
+}
+
+.selected-week {
+  @apply font-body font-bold text-lg tracking-wider border-2 border-primary rounded-md py-1 px-3;
+}
+
+.go-back-btn {
+  @apply border-2 border-tertiary py-1 px-3 rounded-md font-display tracking-wide text-lg text-tertiary transition-all hover:bg-primary hover:bg-opacity-20;
+}
+
+.continue-btn {
+  @apply bg-secondary py-1 px-3 rounded-md font-display tracking-wide text-lg text-tertiary transition-all hover:bg-primary;
+}
+
+.create-btn {
+  @apply bg-gradient-to-r from-secondary to-primary rounded-tl-md rounded-tr-xl rounded-bl-xl rounded-br-md pt-3 pb-2 px-4 flex items-start space-x-2 text-tertiary hover:from-primary hover:to-secondary;
+}
+
+.credits-btn {
+  @apply bg-gray-100 rounded py-2 transition-all hover:bg-gray-200 flex justify-center items-center space-x-3 self-center w-full;
+}
