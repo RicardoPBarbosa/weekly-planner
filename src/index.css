@@ -135,7 +135,7 @@ input[type=number] {
 }
 
 .emoji-splash {
-  @apply relative -z-10;
+  @apply relative z-0;
 }
 
 .emoji-splash svg {
