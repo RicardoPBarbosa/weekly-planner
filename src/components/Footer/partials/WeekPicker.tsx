@@ -1,34 +1,26 @@
 import type { FC } from 'react'
+import { useState } from 'react'
 import 'react-day-picker/lib/style.css'
 import DayPicker from 'react-day-picker'
-import { useState, useEffect } from 'react'
 
 import dayjs from 'src/lib/dayjs'
 import { Week } from 'src/store/week'
-import type { WeekRange } from 'src/helpers/date'
-import { getWeekDays, getWeekRange } from 'src/helpers/date'
+import { isDuringWeek, WeekRange, getWeekDays, getWeekRange } from 'src/helpers/date'
 
 const week = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
 
 type Props = {
   back: () => void
-  currentWeek: Week
+  existingWeeks: Week[]
   createWeekEntry: (week: Week) => void
 }
 
-const WeekPicker: FC<Props> = ({ back, currentWeek, createWeekEntry }) => {
+const WeekPicker: FC<Props> = ({ back, existingWeeks, createWeekEntry }) => {
   const [hoverRange, setHoverRange] = useState<WeekRange>()
   const [selectedWeek, setSelectedWeek] = useState<Date[]>([
     dayjs().subtract(1, 'week').startOf('week').toDate(),
     dayjs().subtract(1, 'week').endOf('week').toDate(),
   ])
-
-  useEffect(() => {
-    setSelectedWeek([
-      dayjs(currentWeek[0]).subtract(1, 'week').startOf('week').toDate(),
-      dayjs(currentWeek[0]).subtract(1, 'week').endOf('week').toDate(),
-    ])
-  }, [currentWeek])
 
   const handleDayEnter = (date: Date) => {
     setHoverRange(getWeekRange(date))
@@ -39,6 +31,9 @@ const WeekPicker: FC<Props> = ({ back, currentWeek, createWeekEntry }) => {
   }
 
   const handleWeekClick = (date: Date) => {
+    if (existingWeeks.some((week) => isDuringWeek(dayjs(date), week))) {
+      return
+    }
     if (dayjs(date).isBefore(dayjs().startOf('week'))) {
       setSelectedWeek([dayjs(date).startOf('week').toDate(), dayjs(date).endOf('week').toDate()])
     }
@@ -59,6 +54,12 @@ const WeekPicker: FC<Props> = ({ back, currentWeek, createWeekEntry }) => {
   const submit = () => {
     createWeekEntry([dayjs(selectedWeek[0]), dayjs(selectedWeek[1])])
   }
+
+  const buildDisabledWeeks = () =>
+    existingWeeks.map((week) => ({
+      from: dayjs(week[0]).toDate(),
+      to: dayjs(week[1]).toDate(),
+    }))
 
   return (
     <div className="flex flex-col items-start">
@@ -84,6 +85,7 @@ const WeekPicker: FC<Props> = ({ back, currentWeek, createWeekEntry }) => {
           {
             after: dayjs().subtract(1, 'week').endOf('week').toDate(),
           },
+          ...buildDisabledWeeks(),
         ]}
       />
       <div className="w-full flex justify-center">

@@ -95,7 +95,7 @@ const History: FC<Props> = ({ close }) => {
       {showCalendar ? (
         <WeekPicker
           back={() => setShowCalendar(false)}
-          currentWeek={currentWeek}
+          existingWeeks={data.map((d) => d.week)}
           createWeekEntry={(week) => handleOpenWeek(week)}
         />
       ) : (

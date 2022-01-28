@@ -8,24 +8,26 @@ import dayjs from 'src/lib/dayjs'
 import { syncData } from 'src/database'
 import { auth } from 'src/lib/firebase'
 import useDataStore from 'src/store/data'
-import type { Data } from 'src/store/data'
 import { isSameWeek } from 'src/helpers/date'
 import Top3 from 'src/components/Header/Top3'
 import Logo from 'src/components/Header/Logo'
 import useCurrentWeekStore from 'src/store/week'
 import WeekDay from 'src/components/Main/WeekDay'
 import Actions from 'src/components/Footer/Actions'
+import type { Data, TopTask } from 'src/store/data'
 import WeekMood from 'src/components/Footer/WeekMood'
 import useNetworkStatus from 'src/hooks/useNetworkStatus'
 import Notification from 'src/components/shared/Notification'
 import HealthTracker from 'src/components/Header/HealthTracker'
 import CurrentWeekDate from 'src/components/Footer/CurrentWeekDate'
+import PrepareNextWeekModal from 'src/components/Main/PrepareNextWeekModal'
 import { buildTopThreeObject, buildTrackerObject, buildWeekDaysObject } from 'src/helpers/data'
 
 const week = ['MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY', 'SUNDAY']
 
 const App: FC = () => {
   const [syncing, setSyncing] = useState<boolean>(false)
+  const [prepareNextWeek, setPrepareNextWeek] = useState(false)
   const [finishedSyncing, setFinishedSyncing] = useState<boolean>(false)
   const { data: user, isLoading } = useAuthUser(['user'], auth)
   const synced = useRef(false)
@@ -95,6 +97,18 @@ const App: FC = () => {
     )
   }
 
+  const handlePrepareNextWeek = (goals: TopTask[]) => {
+    updateWeek(
+      {
+        week: [currentWeek[0].add(1, 'week'), currentWeek[1].add(1, 'week')],
+        topThree: goals,
+        ...(user?.uid && { userId: user.uid }),
+        updatedAt: dayjs(),
+      },
+      !!user && !isOffline
+    )
+  }
+
   const notify = isOffline ? 'offline' : syncing ? 'syncing' : finishedSyncing ? 'synced' : null
 
   return (
@@ -125,6 +139,7 @@ const App: FC = () => {
               updateWeekData={(value: string) =>
                 handleUpdateData(buildWeekDaysObject(currentWeekData, index, value))
               }
+              prepareNextWeek={() => setPrepareNextWeek(true)}
             />
           ))}
           <WeekDay
@@ -137,6 +152,12 @@ const App: FC = () => {
               })
             }
           />
+          {prepareNextWeek && (
+            <PrepareNextWeekModal
+              submit={handlePrepareNextWeek}
+              close={() => setPrepareNextWeek(false)}
+            />
+          )}
         </main>
         <footer className="footer">
           <WeekMood weekData={currentWeekData} updateWeekData={handleUpdateData} />

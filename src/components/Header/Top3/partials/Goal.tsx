@@ -2,8 +2,7 @@ import type { FC } from 'react'
 import { useState, useEffect } from 'react'
 
 import type { TopTask } from 'src/store/data'
-
-const Number: FC = ({ children }) => <div className="goal-number">{children}</div>
+import GoalNumber from 'src/components/shared/GoalNumber'
 
 enum ChangeType {
   TEXT,
@@ -36,7 +35,7 @@ const Goal: FC<Props> = ({ number, task, updateWeekData }) => {
 
   return (
     <div className={`flex items-end space-x-2${number < 3 ? ' mb-4' : ''}`}>
-      <Number>{number}</Number>
+      <GoalNumber>{number}</GoalNumber>
       <input
         type="text"
         className="goal-input"

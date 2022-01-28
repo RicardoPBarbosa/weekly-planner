@@ -24,9 +24,10 @@ type Props = {
   day: string
   value: string
   updateWeekData: (value: string) => void
+  prepareNextWeek?: () => void
 }
 
-const WeekDay: FC<Props> = ({ day, value, updateWeekData }) => {
+const WeekDay: FC<Props> = ({ day, value, updateWeekData, prepareNextWeek }) => {
   const [text, setText] = useState<string>(value)
   const isNotesBlock = day === 'Notes'
 
@@ -53,7 +54,11 @@ const WeekDay: FC<Props> = ({ day, value, updateWeekData }) => {
         onBlur={handleSubmitWeekDay}
         value={text}
       />
-      {day === 'SUNDAY' && <div className="prepare-next-week">Prepare next week -&gt;</div>}
+      {day === 'SUNDAY' && (
+        <button className="group prepare-next-week-btn" onClick={prepareNextWeek}>
+          <p className="prepare-next-week">Prepare next week -&gt;</p>
+        </button>
+      )}
     </div>
   )
 }

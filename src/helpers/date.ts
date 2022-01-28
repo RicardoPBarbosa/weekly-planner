@@ -26,4 +26,7 @@ const isBeforeOrSameDate = (date1: string | Dayjs, date2: string | Dayjs) =>
   dayjs(date1, 'YYYY-MM-DDTHH:mm:ss').isBefore(dayjs(date2, 'YYYY-MM-DDTHH:mm:ss')) ||
   dayjs(date1, 'YYYY-MM-DDTHH:mm:ss').isSame(dayjs(date2, 'YYYY-MM-DDTHH:mm:ss'))
 
-export { getWeekRange, getWeekDays, isSameWeek, isBeforeOrSameDate }
+const isDuringWeek = (date: Dayjs, week: Week) =>
+  date.isAfter(dayjs(week[0])) && date.isBefore(dayjs(week[1]))
+
+export { getWeekRange, getWeekDays, isSameWeek, isBeforeOrSameDate, isDuringWeek }
