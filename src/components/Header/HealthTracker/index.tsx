@@ -13,7 +13,7 @@ export enum TrackingType {
 }
 
 const LocalTitle: FC = () => (
-  <div className="relative w-min">
+  <div className="relative w-min -z-10">
     <Title className="transform -rotate-2">Health tracker</Title>
     <ArrowRightSvg className="w-6 h-6 absolute -bottom-6 -right-6" />
   </div>

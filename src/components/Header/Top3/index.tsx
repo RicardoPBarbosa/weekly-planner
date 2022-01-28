@@ -6,7 +6,7 @@ import Title from 'src/components/shared/Title'
 import { ReactComponent as ArrowLeftSvg } from 'public/assets/arrow-left.svg'
 
 const LocalTitle: FC = () => (
-  <div className="relative w-min">
+  <div className="relative w-min -z-10">
     <Title className="transform -rotate-2">TOP 3 GOALS for the week</Title>
     <ArrowLeftSvg className="w-6 h-6 absolute top-3 -right-5 transform -rotate-45" />
   </div>

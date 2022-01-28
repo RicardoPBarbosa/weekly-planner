@@ -8,7 +8,7 @@ type Props = {
 
 const Modal: FC<Props> = ({ children, title, onClick }) => (
   <div
-    className="fixed inset-0 bg-gray-800 bg-opacity-30 w-screen h-screen flex justify-center items-center modal"
+    className="fixed inset-0 bg-gray-800 bg-opacity-30 w-screen h-screen flex justify-center items-center modal z-50"
     onClick={onClick}
   >
     <div

@@ -110,7 +110,7 @@ input[type=number] {
 }
 
 .emoji-active {
-  @apply relative;
+  @apply relative -z-10;
 }
 
 .emoji-active:before {
@@ -135,7 +135,7 @@ input[type=number] {
 }
 
 .emoji-splash {
-  @apply relative;
+  @apply relative -z-10;
 }
 
 .emoji-splash svg {
@@ -162,7 +162,7 @@ input[type=number] {
 }
 
 .footer-actions-container {
-  @apply flex space-x-3 sm:space-x-5 ml-8 justify-center flex-1 lg:flex-initial lg:justify-end;
+  @apply flex space-x-3 sm:space-x-5 sm:ml-8 justify-center flex-1 lg:flex-initial lg:justify-end;
 }
 
 .DayPicker-Caption {

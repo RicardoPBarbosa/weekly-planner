@@ -119,6 +119,14 @@ const App: FC = () => {
       >
         <header className="header">
           <Logo />
+          <div className="flex flex-1 xs:hidden">
+            <Actions
+              authenticated={!!user}
+              signIn={() => signInWithPopup(auth, new GoogleAuthProvider())}
+              signOut={() => signOut(auth)}
+              loading={isLoading}
+            />
+          </div>
           <Top3
             topThree={currentWeekData?.topThree || []}
             updateWeekData={(task) => handleUpdateData(buildTopThreeObject(currentWeekData, task))}
@@ -162,12 +170,14 @@ const App: FC = () => {
         <footer className="footer">
           <WeekMood weekData={currentWeekData} updateWeekData={handleUpdateData} />
           <CurrentWeekDate currentWeek={currentWeek} />
-          <Actions
-            authenticated={!!user}
-            signIn={() => signInWithPopup(auth, new GoogleAuthProvider())}
-            signOut={() => signOut(auth)}
-            loading={isLoading}
-          />
+          <div className="hidden xs:flex flex-1">
+            <Actions
+              authenticated={!!user}
+              signIn={() => signInWithPopup(auth, new GoogleAuthProvider())}
+              signOut={() => signOut(auth)}
+              loading={isLoading}
+            />
+          </div>
         </footer>
       </div>
     </>

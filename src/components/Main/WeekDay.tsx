@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import { ReactComponent as ArrowLeftSvg } from 'public/assets/arrow-left.svg'
 
 const WeekDayName: FC = ({ children }) => (
-  <div className="relative w-min">
+  <div className="relative w-min z-0">
     <div className="bg-secondary text-tertiary font-display w-max px-2 rounded-tl-md rounded-tr-xl rounded-bl-xl rounded-br-md -mt-4 -ml-2 tracking-wide text-lg">
       {children}
     </div>
@@ -12,7 +12,7 @@ const WeekDayName: FC = ({ children }) => (
 )
 
 const NotesTitle: FC = ({ children }) => (
-  <div className="relative w-min">
+  <div className="relative w-min z-0">
     <div className="bg-primary text-white font-display w-max px-2 rounded-tl-md rounded-tr-xl rounded-bl-xl rounded-br-md -mt-3 -ml-2 tracking-wide transform -rotate-6">
       {children}
     </div>
