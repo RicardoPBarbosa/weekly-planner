@@ -1,21 +1,27 @@
+import dayjs from 'dayjs'
 import type { FC } from 'react'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
+import useDataStore from 'src/store/data'
+import { isSameWeek } from 'src/helpers/date'
 import type { TopTask } from 'src/store/data'
 import Modal from 'src/components/shared/Modal'
 import GoalNumber from 'src/components/shared/GoalNumber'
+import { Week } from 'src/store/week'
 
 type GoalRowProps = {
   number: number
   text: string
+  disabled: boolean
   setText: (text: string) => void
 }
 
-const GoalRow: FC<GoalRowProps> = ({ number, text, setText }) => (
+const GoalRow: FC<GoalRowProps> = ({ number, text, disabled, setText }) => (
   <div className={`flex items-end space-x-2${number < 3 ? ' mb-4' : ''}`}>
     <GoalNumber>{number}</GoalNumber>
     <input
       type="text"
+      disabled={disabled}
       className="goal-input"
       onChange={({ target: { value } }) => setText(value)}
       value={text}
@@ -24,12 +30,26 @@ const GoalRow: FC<GoalRowProps> = ({ number, text, setText }) => (
 )
 
 type Props = {
+  currentWeek: Week
   submit: (goals: TopTask[]) => void
   close: () => void
 }
 
-const PrepareNextWeekModal: FC<Props> = ({ submit, close }) => {
+const PrepareNextWeekModal: FC<Props> = ({ currentWeek, submit, close }) => {
   const [goals, setGoals] = useState<TopTask[]>([])
+  const [invalidNextWeek, setInvalidNextWeek] = useState(false)
+  const week = useDataStore((state) =>
+    state.data.find(({ week }) =>
+      isSameWeek(week, [dayjs(currentWeek[0]).add(1, 'week'), dayjs(currentWeek[1]).add(1, 'week')])
+    )
+  )
+
+  useEffect(() => {
+    if (week) {
+      setInvalidNextWeek(dayjs(week.week[0]).isBefore(dayjs().add(1, 'week').startOf('week')))
+      setGoals(week.topThree)
+    }
+  }, [week])
 
   const handleTextChange = (taskNumber: 1 | 2 | 3, text: string) => {
     const goalIndex = goals.findIndex((g) => g.position === taskNumber)
@@ -52,17 +72,20 @@ const PrepareNextWeekModal: FC<Props> = ({ submit, close }) => {
             number={taskNumber as 1 | 2 | 3}
             text={goals.find((g) => g.position === taskNumber)?.text || ''}
             setText={(text) => handleTextChange(taskNumber as 1 | 2 | 3, text)}
+            disabled={invalidNextWeek}
           />
         ))}
       </div>
-      <div className="w-full flex justify-between items-center pt-3">
-        <button className="go-back-btn" onClick={close}>
-          X Cancel
-        </button>
-        <button className="continue-btn" onClick={() => submit(goals)}>
-          Submit -&gt;
-        </button>
-      </div>
+      {!invalidNextWeek && (
+        <div className="w-full flex justify-between items-center pt-3">
+          <button className="go-back-btn" onClick={close}>
+            X Cancel
+          </button>
+          <button className="continue-btn" onClick={() => submit(goals)}>
+            Submit -&gt;
+          </button>
+        </div>
+      )}
     </Modal>
   )
 }

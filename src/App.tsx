@@ -107,6 +107,7 @@ const App: FC = () => {
       },
       !!user && !isOffline
     )
+    setPrepareNextWeek(false)
   }
 
   const notify = isOffline ? 'offline' : syncing ? 'syncing' : finishedSyncing ? 'synced' : null
@@ -162,6 +163,7 @@ const App: FC = () => {
           />
           {prepareNextWeek && (
             <PrepareNextWeekModal
+              currentWeek={currentWeek}
               submit={handlePrepareNextWeek}
               close={() => setPrepareNextWeek(false)}
             />
