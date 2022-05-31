@@ -34,6 +34,24 @@ export default defineConfig({
         theme_color: '#5AC596',
         background_color: '#ffffff',
         display: 'standalone',
+        description: "Weekly Planner",
+        screenshots: [
+          {
+            src: './assets/screenshots/1.png',
+            sizes: '375x712',
+            type: 'image/png',
+          },
+          {
+            src: './assets/screenshots/2.png',
+            sizes: '375x712',
+            type: 'image/png',
+          },
+          {
+            src: './assets/screenshots/3.png',
+            sizes: '375x712',
+            type: 'image/png',
+          },
+        ],
       },
     }),
   ],
