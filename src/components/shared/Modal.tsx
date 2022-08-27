@@ -4,22 +4,25 @@ import { RiCloseLine } from 'react-icons/ri'
 type Props = {
   title?: string
   onClick: () => void
+  modalStyles?: string
 }
 
-const Modal: FC<Props> = ({ children, title, onClick }) => (
+const Modal: FC<Props> = ({ children, title, onClick, modalStyles }) => (
   <div
-    className="fixed inset-0 bg-gray-800 bg-opacity-30 w-screen h-screen flex justify-center items-center modal z-50"
+    className="fixed inset-0 z-50 flex items-center justify-center w-screen h-screen bg-gray-800 bg-opacity-30 modal"
     onClick={onClick}
   >
     <div
-      className="bg-white rounded-tl-md rounded-tr-xl rounded-bl-xl rounded-br-md shadow-lg py-4 px-5 border-2 border-tertiary max-w-md mx-2"
+      className={`bg-white rounded-tl-md rounded-tr-xl rounded-bl-xl rounded-br-md shadow-lg py-4 px-5 border-2 border-tertiary mx-2 ${
+        modalStyles || ''
+      }`}
       onClick={(e) => e.stopPropagation()}
     >
-      <div className="flex justify-between items-center">
-        <h1 className="font-display text-2xl text-primary">{title || ''}</h1>
+      <div className="flex items-center justify-between">
+        <h1 className="text-2xl font-display text-primary">{title || ''}</h1>
         <button
           onClick={onClick}
-          className="w-8 h-8 flex justify-center items-center transition-all hover:opacity-60"
+          className="flex items-center justify-center w-8 h-8 transition-all hover:opacity-60"
         >
           <RiCloseLine size={24} />
         </button>

@@ -5,3 +5,9 @@ export enum MoodType {
   SAD,
   WASTED,
 }
+
+export enum ModalViews {
+  HISTORY,
+  WEEKPICKER,
+  YEARREVIEW,
+}

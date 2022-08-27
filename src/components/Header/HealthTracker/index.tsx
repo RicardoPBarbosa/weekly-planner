@@ -5,7 +5,7 @@ import TrackingItem from './TrackingItem'
 import { Tracker } from 'src/store/data'
 import Title from 'src/components/shared/Title'
 import { DEFAULT_TRACKER, TrackingName } from 'src/store/constants'
-import { ReactComponent as ArrowRightSvg } from 'public/assets/arrow-right.svg'
+import { ReactComponent as ArrowRightSvg } from 'src/assets/arrow-right.svg'
 
 export enum TrackingType {
   CHECKBOX,

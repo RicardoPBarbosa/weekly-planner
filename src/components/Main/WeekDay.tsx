@@ -1,7 +1,7 @@
 import type { FC } from 'react'
 import { useState, useEffect } from 'react'
 
-import { ReactComponent as ArrowLeftSvg } from 'public/assets/arrow-left.svg'
+import { ReactComponent as ArrowLeftSvg } from 'src/assets/arrow-left.svg'
 
 const WeekDayName: FC = ({ children }) => (
   <div className="relative w-min z-0">

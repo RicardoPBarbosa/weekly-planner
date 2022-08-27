@@ -1,6 +1,6 @@
 import type { FC } from 'react'
 
-import { ReactComponent as LogoSvg } from 'public/assets/logo.svg'
+import { ReactComponent as LogoSvg } from 'src/assets/logo.svg'
 
 const LogoText: FC<{ className?: string }> = ({ children, className }) => (
   <p className={`font-display tracking-wide text-primary text-lg ${className || ''}`}>{children}</p>

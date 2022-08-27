@@ -65,13 +65,13 @@ const WeekPicker: FC<Props> = ({ back, existingWeeks, createWeekEntry }) => {
     <div className="flex flex-col items-start">
       <DayPicker
         weekdayElement={({ weekday }) => (
-          <span className="DayPicker-Weekday font-display tracking-wide">
+          <span className="tracking-wide DayPicker-Weekday font-display">
             {week[weekday].slice(0, 3)}
           </span>
         )}
-        renderDay={(date) => <div className="font-body text-lg">{date.getDate()}</div>}
+        renderDay={(date) => <div className="text-lg font-body">{date.getDate()}</div>}
         renderWeek={(weekNumber) => (
-          <div className="font-display text-lg tracking-wider">{weekNumber}</div>
+          <div className="text-lg tracking-wider font-display">{weekNumber}</div>
         )}
         firstDayOfWeek={1}
         showOutsideDays
@@ -88,14 +88,14 @@ const WeekPicker: FC<Props> = ({ back, existingWeeks, createWeekEntry }) => {
           ...buildDisabledWeeks(),
         ]}
       />
-      <div className="w-full flex justify-center">
+      {/* <div className="flex justify-center w-full">
         <p className="selected-week">
           {dayjs(selectedWeek[0]).format('DD/MM/YYYY')}{' '}
           <span className="font-display text-secondary">-&gt;</span>{' '}
           {dayjs(selectedWeek[1]).format('DD/MM/YYYY')}
         </p>
-      </div>
-      <div className="w-full flex justify-between items-center pt-4">
+      </div> */}
+      <div className="flex items-center justify-between w-full pt-4">
         <button className="go-back-btn" onClick={back}>
           &lt;- Go back
         </button>

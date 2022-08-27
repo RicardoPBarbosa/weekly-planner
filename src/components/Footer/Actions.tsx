@@ -7,8 +7,8 @@ import {
   RiCloudOffLine,
 } from 'react-icons/ri'
 
-import History from './partials/History'
 import Credits from './partials/Credits'
+import HistoryModal from './partials/HistoryModal'
 
 enum ACTION_TYPE {
   HISTORY,
@@ -39,7 +39,7 @@ const Actions: FC<Props> = ({ authenticated, signIn, signOut, loading }) => {
   const renderModal = () => {
     switch (action) {
       case ACTION_TYPE.HISTORY:
-        return <History close={onClose} />
+        return <HistoryModal close={onClose} />
       case ACTION_TYPE.CREDITS:
         return <Credits close={onClose} />
       default:
@@ -50,7 +50,7 @@ const Actions: FC<Props> = ({ authenticated, signIn, signOut, loading }) => {
   return (
     <>
       <div className="footer-actions-container">
-        <div className="border-l-2 border-gray-200 hidden lg:block" />
+        <div className="hidden border-l-2 border-gray-200 lg:block" />
         <Button disabled={loading} onClick={() => (authenticated ? signOut() : signIn())}>
           {authenticated ? <RiCloudOffLine size={23} /> : <RiUploadCloud2Line size={23} />}
         </Button>

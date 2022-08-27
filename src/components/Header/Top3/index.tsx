@@ -3,7 +3,7 @@ import type { FC } from 'react'
 import Goal from './partials/Goal'
 import type { TopTask } from 'src/store/data'
 import Title from 'src/components/shared/Title'
-import { ReactComponent as ArrowLeftSvg } from 'public/assets/arrow-left.svg'
+import { ReactComponent as ArrowLeftSvg } from 'src/assets/arrow-left.svg'
 
 const LocalTitle: FC = () => (
   <div className="relative w-min -z-10">
