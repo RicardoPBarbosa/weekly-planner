@@ -56,8 +56,9 @@ const assignUserToData = (data: Data[], userId: string) =>
     return row
   })
 
-const convertFirebaseDataToLocal = (data: DocumentData): Data => ({
+const convertFirebaseDataToLocal = (id: string, data: DocumentData): Data => ({
   ...(data as Data),
+  id,
   week: [dayjs(data.week[0]), dayjs(data.week[1])],
   updatedAt: dayjs(data.updatedAt),
 })

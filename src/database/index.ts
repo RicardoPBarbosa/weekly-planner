@@ -1,5 +1,15 @@
-import type { DocumentData, QuerySnapshot } from 'firebase/firestore'
-import { collection, doc, getDocs, query, setDoc, where } from 'firebase/firestore'
+import dayjs from 'dayjs'
+import {
+  DocumentData,
+  QuerySnapshot,
+  collection,
+  getDocs,
+  query,
+  setDoc,
+  where,
+  deleteDoc,
+  doc,
+} from 'firebase/firestore'
 
 import type { Data } from 'src/store/data'
 import { converter, db } from 'src/lib/firebase'
@@ -18,7 +28,7 @@ const fetchData = async (
     return querySnapshot
   }
   if (!querySnapshot.empty) {
-    return querySnapshot.docs.map((doc) => convertFirebaseDataToLocal(doc.data()))
+    return querySnapshot.docs.map((doc) => convertFirebaseDataToLocal(doc.id, doc.data()))
   }
 
   return null
@@ -76,4 +86,41 @@ const syncData = async (data: Data[], userId: string): Promise<Data[] | Error> =
   return dbData
 }
 
-export { upsertData, syncData }
+const removeDuplicateFromDb = async (entryId?: string) => {
+  if (entryId) {
+    await deleteDoc(doc(db, COLLECTION_NAME, entryId))
+  }
+}
+
+const removeDuplicatedData = async (userId: string): Promise<Data[]> => {
+  const dbData = (await fetchData(userId)) as Data[] | null
+  const promises: Promise<void>[] = []
+  const deduplicated: Data[] = []
+  if (dbData) {
+    dbData.forEach((entry) => {
+      if (
+        deduplicated.some((val) =>
+          dayjs(val.week[0], 'YYYY-MM-DDTHH:mm:ss').isSame(
+            dayjs(entry.week[0], 'YYYY-MM-DDTHH:mm:ss'),
+            'day'
+          )
+        )
+      ) {
+        promises.push(removeDuplicateFromDb(entry?.id))
+      } else {
+        deduplicated.push(entry)
+      }
+    })
+    await Promise.all(promises)
+    // eslint-disable-next-line no-console
+    console.info('Deduplication done', {
+      initialCount: dbData.length,
+      removed: promises.length,
+      remaining: deduplicated.length,
+    })
+  }
+
+  return deduplicated
+}
+
+export { upsertData, syncData, removeDuplicatedData }

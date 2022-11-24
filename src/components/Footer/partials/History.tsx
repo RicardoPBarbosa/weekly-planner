@@ -1,5 +1,5 @@
 import type { FC } from 'react'
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 
 import dayjs from 'src/lib/dayjs'
 import useDataStore from 'src/store/data'
@@ -10,6 +10,9 @@ import { isSameWeek } from 'src/helpers/date'
 import useCurrentWeekStore from 'src/store/week'
 import { ModalViews, MoodType } from 'src/types'
 import { HiOutlineCalendar } from 'react-icons/hi'
+import { auth } from 'src/lib/firebase'
+import { useAuthUser } from '@react-query-firebase/auth'
+import { removeDuplicatedData } from 'src/database'
 
 type ItemProps = {
   weekNumber: number
@@ -51,7 +54,9 @@ type Props = {
 }
 
 const History: FC<Props> = ({ close, setCurrentView }) => {
-  const data = useDataStore(({ data }) => data)
+  const { data: user } = useAuthUser(['user'], auth)
+  const [actionRunning, setActionRunning] = useState(false)
+  const { data, setData } = useDataStore((state) => state)
   const { current: currentWeek, setCurrentWeek } = useCurrentWeekStore((state) => state)
   const formattedData = useMemo(() => {
     const weekNumberFix = dayjs(currentWeek[0]).subtract(1, 'day')
@@ -74,6 +79,15 @@ const History: FC<Props> = ({ close, setCurrentView }) => {
   const handleOpenWeek = (week: Week) => {
     setCurrentWeek([dayjs(week[0]), dayjs(week[1])])
     close()
+  }
+
+  const handleRemoveDuplicates = async () => {
+    if (user?.uid) {
+      setActionRunning(true)
+      const deduplicatedData = await removeDuplicatedData(user.uid)
+      setData(deduplicatedData)
+      setActionRunning(false)
+    }
   }
 
   return (
@@ -111,6 +125,13 @@ const History: FC<Props> = ({ close, setCurrentView }) => {
         {!Object.keys(formattedData).length && (
           <p className="text-xl text-gray-800 font-display">No entries found</p>
         )}
+        <button
+          className="w-full mt-2 go-back-btn disabled:opacity-30"
+          onClick={handleRemoveDuplicates}
+          disabled={actionRunning}
+        >
+          <span className="font-display">Remove duplicates</span>
+        </button>
       </div>
       <div className="relative z-10 h-8 -mt-8 bg-gradient-to-t from-white" />
       <div className="flex justify-center">

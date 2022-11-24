@@ -20,6 +20,7 @@ export type TopTask = {
 }
 
 export interface Data {
+  id?: string
   week: Week
   topThree: TopTask[]
   tracker: Tracker

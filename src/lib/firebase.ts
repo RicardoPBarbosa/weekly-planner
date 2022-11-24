@@ -42,6 +42,6 @@ export const converter = {
   },
   fromFirestore: (snapshot: DocumentSnapshot, options: SnapshotOptions): Data => {
     const plannerRow = snapshot.data(options) as Data
-    return convertFirebaseDataToLocal(plannerRow)
+    return convertFirebaseDataToLocal(snapshot.id, plannerRow)
   },
 }
