@@ -19,6 +19,7 @@ import WeekMood from 'src/components/Footer/WeekMood'
 import useNetworkStatus from 'src/hooks/useNetworkStatus'
 import Notification from 'src/components/shared/Notification'
 import HealthTracker from 'src/components/Header/HealthTracker'
+import NavigationArrows from 'src/components/Main/NavigationArrows'
 import CurrentWeekDate from 'src/components/Footer/CurrentWeekDate'
 import PrepareNextWeekModal from 'src/components/Main/PrepareNextWeekModal'
 import { buildTopThreeObject, buildTrackerObject, buildWeekDaysObject } from 'src/helpers/data'
@@ -140,6 +141,7 @@ const App: FC = () => {
           />
         </header>
         <main className="main-container">
+          <NavigationArrows />
           {week.map((day, index) => (
             <WeekDay
               key={day}
@@ -172,7 +174,7 @@ const App: FC = () => {
         <footer className="footer">
           <WeekMood weekData={currentWeekData} updateWeekData={handleUpdateData} />
           <CurrentWeekDate currentWeek={currentWeek} />
-          <div className="hidden xs:flex flex-1">
+          <div className="flex-1 hidden xs:flex">
             <Actions
               authenticated={!!user}
               signIn={() => signInWithPopup(auth, new GoogleAuthProvider())}

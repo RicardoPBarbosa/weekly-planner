@@ -48,40 +48,40 @@ input[type=number] {
 }
 
 .header {
-  @apply flex justify-between items-center space-x-1 md:space-x-5 flex-wrap lg:flex-nowrap space-y-5 overflow-x-hidden;
+  @apply flex flex-wrap items-center justify-between space-x-1 space-y-5 overflow-x-hidden md:space-x-5 lg:flex-nowrap;
 }
 
 .main-container {
-  @apply grid grid-flow-row grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 grid-rows-2 gap-x-3 gap-y-5 mt-9;
+  @apply relative grid grid-flow-row grid-cols-1 grid-rows-2 overflow-x-hidden sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-3 gap-y-5 mt-9;
 }
 
 .footer {
-  @apply mt-9 mb-5 flex justify-between items-center flex-wrap space-x-0 sm:space-x-5 space-y-7 lg:space-y-0;
+  @apply flex flex-wrap items-center justify-between mb-5 space-x-0 mt-9 sm:space-x-5 space-y-7 lg:space-y-0;
 }
 
 .goal-number {
-  @apply w-6 h-6 bg-gradient-to-r from-secondary to-primary rounded-tl-md rounded-tr-xl rounded-bl-xl rounded-br-md font-display text-xl text-tertiary flex justify-center items-center pt-1;
+  @apply flex items-center justify-center w-6 h-6 pt-1 text-xl bg-gradient-to-r from-secondary to-primary rounded-tl-md rounded-tr-xl rounded-bl-xl rounded-br-md font-display text-tertiary;
 }
 
 .goal-input {
-  @apply flex-1 border-b border-t-0 border-l-0 border-r-0 border-gray-400 bg-transparent font-body text-lg leading-tight focus:ring-primary focus:ring-2 focus:border-transparent pt-1 pb-0 px-0 mx-2;
+  @apply flex-1 px-0 pt-1 pb-0 mx-2 text-lg leading-tight bg-transparent border-t-0 border-b border-l-0 border-r-0 border-gray-400 font-body focus:ring-primary focus:ring-2 focus:border-transparent;
 }
 
 .goal-checkbox {
-  @apply w-6 h-6 text-secondary focus:ring-primary border-2 border-tertiary rounded-tl-md rounded-tr-md rounded-bl-md rounded-br-lg;
+  @apply w-6 h-6 border-2 rounded-br-lg text-secondary focus:ring-primary border-tertiary rounded-tl-md rounded-tr-md rounded-bl-md;
 }
 
 .tracker-name {
-  @apply bg-tertiary text-white font-display leading-8 px-4 rounded-tl-md rounded-tr-xl rounded-bl-xl rounded-br-md tracking-wide w-max;
+  @apply px-4 leading-8 tracking-wide text-white bg-tertiary font-display rounded-tl-md rounded-tr-xl rounded-bl-xl rounded-br-md w-max;
 }
 
 .drop-input {
-  @apply w-7 h-7 -ml-1 font-body font-semibold text-tertiary border-2 border-tertiary text-sm text-center focus:shadow-none focus:ring-primary focus:ring-2 focus:border-tertiary p-0 mt-2 rounded-full -rotate-45;
+  @apply p-0 mt-2 -ml-1 text-sm font-semibold text-center -rotate-45 border-2 rounded-full w-7 h-7 font-body text-tertiary border-tertiary focus:shadow-none focus:ring-primary focus:ring-2 focus:border-tertiary;
   border-top-right-radius: 0;
 }
 
 .health-tracker-container {
-  @apply flex flex-col items-start sm:items-center flex-1 max-w-sm min-w-full lg:min-w-max overflow-y-hidden overflow-x-auto;
+  @apply flex flex-col items-start flex-1 max-w-sm min-w-full overflow-x-auto overflow-y-hidden sm:items-center lg:min-w-max;
 }
 
 .dot-bg {
@@ -98,15 +98,15 @@ input[type=number] {
 }
 
 .week-day-textarea {
-  @apply w-full h-full flex-1 -mt-3 border-none resize-none bg-transparent px-1 py-3 font-body focus:ring-primary focus:ring-2 focus:border-transparent;
+  @apply flex-1 w-full h-full px-1 py-3 -mt-3 bg-transparent border-none resize-none font-body focus:ring-primary focus:ring-2 focus:border-transparent;
 }
 
 .prepare-next-week-btn {
-  @apply hover:bg-gradient-to-r from-secondary to-primary rounded-br-sm;
+  @apply rounded-br-sm hover:bg-gradient-to-r from-secondary to-primary;
 }
 
 .prepare-next-week {
-  @apply text-center font-display text-lg text-transparent bg-clip-text transition-all bg-gradient-to-r from-secondary to-primary group-hover:text-white;
+  @apply text-lg text-center text-transparent transition-all font-display bg-clip-text bg-gradient-to-r from-secondary to-primary group-hover:text-white;
 }
 
 .emoji-active {
@@ -131,7 +131,7 @@ input[type=number] {
 }
 
 .icon-primary * {
-  @apply text-secondary fill-current;  
+  @apply fill-current text-secondary;  
 }
 
 .emoji-splash {
@@ -158,11 +158,11 @@ input[type=number] {
 }
 
 .footer-date-container {
-  @apply flex space-x-2 justify-center md:justify-end items-end md:flex-1 flex-wrap sm:flex-nowrap;
+  @apply flex flex-wrap items-end justify-center space-x-2 md:justify-end md:flex-1 sm:flex-nowrap;
 }
 
 .footer-actions-container {
-  @apply flex space-x-3 sm:space-x-5 sm:ml-8 justify-center flex-1 lg:flex-initial lg:justify-end;
+  @apply flex justify-center flex-1 space-x-3 sm:space-x-5 sm:ml-8 lg:flex-initial lg:justify-end;
 }
 
 .DayPicker-Caption {
@@ -218,21 +218,21 @@ input[type=number] {
 }
 
 .selected-week {
-  @apply font-body font-bold text-lg tracking-wider border-2 border-primary rounded-md py-1 px-3;
+  @apply px-3 py-1 text-lg font-bold tracking-wider border-2 rounded-md font-body border-primary;
 }
 
 .go-back-btn {
-  @apply border-2 border-tertiary py-1 px-3 rounded-md font-display tracking-wide text-lg text-tertiary transition-all hover:bg-primary hover:bg-opacity-20;
+  @apply px-3 py-1 text-lg tracking-wide transition-all border-2 rounded-md border-tertiary font-display text-tertiary hover:bg-primary hover:bg-opacity-20;
 }
 
 .continue-btn {
-  @apply bg-secondary py-1 px-3 rounded-md font-display tracking-wide text-lg text-tertiary transition-all hover:bg-primary;
+  @apply px-3 py-1 text-lg tracking-wide transition-all rounded-md bg-secondary font-display text-tertiary hover:bg-primary;
 }
 
 .create-btn {
-  @apply bg-gradient-to-r from-secondary to-primary rounded-tl-md rounded-tr-xl rounded-bl-xl rounded-br-md pt-3 pb-2 px-4 flex items-start space-x-2 text-tertiary hover:from-primary hover:to-secondary;
+  @apply flex items-start px-4 pt-3 pb-2 space-x-2 bg-gradient-to-r from-secondary to-primary rounded-tl-md rounded-tr-xl rounded-bl-xl rounded-br-md text-tertiary hover:from-primary hover:to-secondary;
 }
 
 .credits-btn {
-  @apply bg-gray-100 rounded py-2 transition-all hover:bg-gray-200 flex justify-center items-center space-x-3 self-center w-full;
+  @apply flex items-center self-center justify-center w-full py-2 space-x-3 transition-all bg-gray-100 rounded hover:bg-gray-200;
 }
