@@ -1,6 +1,6 @@
 import dayjs from 'dayjs'
 import { useMemo } from 'react'
-import type { FC, ReactNode } from 'react'
+import type { ReactNode } from 'react'
 import { BsArrowReturnRight } from 'react-icons/bs'
 
 import { MoodType } from 'src/types'
@@ -16,7 +16,7 @@ type Props = {
   reviewYear: number
 }
 
-const YearReview: FC<Props> = ({ back, reviewYear }) => {
+const YearReview = ({ back, reviewYear }: Props) => {
   const data = useDataStore(({ data }) =>
     data.filter((item) => dayjs(item.week[0]).subtract(1, 'day').year() === reviewYear)
   )

@@ -1,13 +1,13 @@
-import type { FC } from 'react'
+import type { PropsWithChildren } from 'react'
 import { RiCloseLine } from 'react-icons/ri'
 
 type Props = {
   title?: string
   onClick: () => void
   modalStyles?: string
-}
+} & PropsWithChildren
 
-const Modal: FC<Props> = ({ children, title, onClick, modalStyles }) => (
+const Modal = ({ children, title, onClick, modalStyles }: Props) => (
   <div
     className="fixed inset-0 z-50 flex items-center justify-center w-screen h-screen bg-gray-800 bg-opacity-30 modal"
     onClick={onClick}

@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import type { ButtonHTMLAttributes, FC } from 'react'
+import type { ButtonHTMLAttributes } from 'react'
+import { PropsWithChildren, useState } from 'react'
 import {
   RiHistoryLine,
   RiInformationLine,
@@ -15,7 +15,11 @@ enum ACTION_TYPE {
   CREDITS,
 }
 
-const Button: FC<ButtonHTMLAttributes<HTMLButtonElement>> = ({ children, className, ...props }) => (
+const Button = ({
+  children,
+  className,
+  ...props
+}: ButtonHTMLAttributes<HTMLButtonElement> & PropsWithChildren) => (
   <button
     {...props}
     className={`bg-gray-100 rounded p-2 text-gray-500 transition-all hover:bg-gray-200 ${className}`}
@@ -31,7 +35,7 @@ type Props = {
   loading: boolean
 }
 
-const Actions: FC<Props> = ({ authenticated, signIn, signOut, loading }) => {
+const Actions = ({ authenticated, signIn, signOut, loading }: Props) => {
   const [action, setAction] = useState<ACTION_TYPE>()
 
   const onClose = () => setAction(undefined)

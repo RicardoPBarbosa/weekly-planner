@@ -1,4 +1,3 @@
-import type { FC } from 'react'
 import type { User } from 'firebase/auth'
 import { useState, useEffect, useRef } from 'react'
 import { useAuthUser } from '@react-query-firebase/auth'
@@ -26,7 +25,7 @@ import { buildTopThreeObject, buildTrackerObject, buildWeekDaysObject } from 'sr
 
 const week = ['MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY', 'SUNDAY']
 
-const App: FC = () => {
+const App = () => {
   const [syncing, setSyncing] = useState<boolean>(false)
   const [prepareNextWeek, setPrepareNextWeek] = useState(false)
   const [finishedSyncing, setFinishedSyncing] = useState<boolean>(false)

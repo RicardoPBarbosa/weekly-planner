@@ -1,5 +1,4 @@
 import dayjs from 'dayjs'
-import type { FC } from 'react'
 import { useState, useEffect } from 'react'
 
 import useDataStore from 'src/store/data'
@@ -16,7 +15,7 @@ type GoalRowProps = {
   setText: (text: string) => void
 }
 
-const GoalRow: FC<GoalRowProps> = ({ number, text, disabled, setText }) => (
+const GoalRow = ({ number, text, disabled, setText }: GoalRowProps) => (
   <div className={`flex items-end space-x-2${number < 3 ? ' mb-4' : ''}`}>
     <GoalNumber>{number}</GoalNumber>
     <input
@@ -35,7 +34,7 @@ type Props = {
   close: () => void
 }
 
-const PrepareNextWeekModal: FC<Props> = ({ currentWeek, submit, close }) => {
+const PrepareNextWeekModal = ({ currentWeek, submit, close }: Props) => {
   const [goals, setGoals] = useState<TopTask[]>([])
   const [invalidNextWeek, setInvalidNextWeek] = useState(false)
   const week = useDataStore((state) =>
@@ -77,7 +76,7 @@ const PrepareNextWeekModal: FC<Props> = ({ currentWeek, submit, close }) => {
         ))}
       </div>
       {!invalidNextWeek && (
-        <div className="w-full flex justify-between items-center pt-3">
+        <div className="flex items-center justify-between w-full pt-3">
           <button className="go-back-btn" onClick={close}>
             X Cancel
           </button>

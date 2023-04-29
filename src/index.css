@@ -165,57 +165,56 @@ input[type=number] {
   @apply flex justify-center flex-1 space-x-3 sm:space-x-5 sm:ml-8 lg:flex-initial lg:justify-end;
 }
 
-.DayPicker-Caption {
-  @apply font-display text-lg tracking-wide text-tertiary !px-0;
+/* React Day Picker */
+.rdp {
+  --rdp-cell-size: 45px !important;
 }
 
-.DayPicker-Month {
+.rdp-caption .rdp-caption_label {
+  @apply font-display text-xl tracking-wide text-tertiary !px-0;
+}
+
+.rdp-month {
   @apply min-w-full;
 }
 
-.DayPicker-WeekNumber {
-  @apply !cursor-default;
-}
-
-.DayPicker-Day--hoverRange {
+.rdp-button {
   @apply !rounded-none;
 }
 
-.DayPicker-Day--selected {
-  @apply !rounded-none;
-}
-
-.DayPicker-Day--selected:hover {
-  @apply !bg-inherit;
-}
-
-.DayPicker-Day--selected:last-child {
-  @apply !rounded-tl-none !rounded-tr-xl !rounded-bl-none !rounded-br-md;
-}
-
-.DayPicker-Day--selectedRangeStart {
+.rdp-row .rdp-cell:first-child button {
   @apply !rounded-tl-md !rounded-tr-none !rounded-bl-xl !rounded-br-none;
 }
 
-.DayPicker-Day--hoverRange:not(.DayPicker-Day--disabled, .DayPicker-Day--selected) {
+.rdp-row .rdp-cell:last-child button {
+  @apply !rounded-tl-none !rounded-tr-xl !rounded-bl-none !rounded-br-md;
+}
+
+.rdp-row:hover .rdp-cell {
   @apply !bg-gray-200;
 }
 
-.DayPicker-Day--hoverRange.DayPicker-Day--hoverRangeStart {
+.rdp-row:hover .rdp-cell:first-child {
   @apply !rounded-tl-md !rounded-tr-none !rounded-bl-xl !rounded-br-none;
 }
-
-.DayPicker-Day--hoverRange.DayPicker-Day--hoverRangeEnd {
+.rdp-row:hover .rdp-cell:last-child {
   @apply !rounded-tl-none !rounded-tr-xl !rounded-bl-none !rounded-br-md;
 }
 
-.DayPicker-Week .DayPicker-Day--selected {
- @apply !bg-primary;
+.rdp-button:hover:not([disabled]):not(.rdp-day_selected) {
+  @apply !bg-inherit;
 }
 
-.DayPicker-Week .DayPicker-Day--selected.DayPicker-Day--outside {
- @apply !text-gray-200;
+.rdp-day_selected {
+  @apply !bg-primary;
+
 }
+
+.rdp-button .rdp-day_selected:hover {
+  @apply !bg-primary !text-white;
+}
+
+/* */
 
 .selected-week {
   @apply px-3 py-1 text-lg font-bold tracking-wider border-2 rounded-md font-body border-primary;

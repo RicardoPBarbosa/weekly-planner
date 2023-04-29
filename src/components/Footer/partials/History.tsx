@@ -1,7 +1,9 @@
-import type { FC } from 'react'
 import { useMemo, useState } from 'react'
+import { HiOutlineCalendar } from 'react-icons/hi'
+import { useAuthUser } from '@react-query-firebase/auth'
 
 import dayjs from 'src/lib/dayjs'
+import { auth } from 'src/lib/firebase'
 import useDataStore from 'src/store/data'
 import { moods } from 'src/helpers/moods'
 import type { Data } from 'src/store/data'
@@ -9,9 +11,6 @@ import type { Week } from 'src/store/week'
 import { isSameWeek } from 'src/helpers/date'
 import useCurrentWeekStore from 'src/store/week'
 import { ModalViews, MoodType } from 'src/types'
-import { HiOutlineCalendar } from 'react-icons/hi'
-import { auth } from 'src/lib/firebase'
-import { useAuthUser } from '@react-query-firebase/auth'
 import { removeDuplicatedData } from 'src/database'
 
 type ItemProps = {
@@ -23,14 +22,14 @@ type ItemProps = {
   mood: MoodType | null
 }
 
-const HistoryItem: FC<ItemProps> = ({
+const HistoryItem = ({
   weekNumber,
   weekStart,
   weekEnd,
   openWeek,
   isCurrentWeek,
   mood,
-}) => (
+}: ItemProps) => (
   <button
     onClick={() => (!isCurrentWeek ? openWeek() : {})}
     className={`flex items-center justify-between bg-gray-100 py-3 px-4 rounded space-x-8 transition-all ring-inset ring-secondary ${
@@ -53,7 +52,7 @@ type Props = {
   setReviewYear: (year: number) => void
 }
 
-const History: FC<Props> = ({ close, setCurrentView }) => {
+const History = ({ close, setCurrentView }: Props) => {
   const { data: user } = useAuthUser(['user'], auth)
   const [actionRunning, setActionRunning] = useState(false)
   const { data, setData } = useDataStore((state) => state)

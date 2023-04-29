@@ -1,4 +1,4 @@
-import create from 'zustand'
+import { create } from 'zustand'
 import type { Dayjs } from 'dayjs'
 import { persist } from 'zustand/middleware'
 
@@ -36,7 +36,7 @@ export interface DataState {
   updateWeek: (weekData: Partial<Data>, withAuth: boolean) => void
 }
 
-const useDataStore = create<DataState>(
+const useDataStore = create<DataState, [['zustand/persist', DataState]]>(
   persist(
     (set, get) => ({
       data: [],

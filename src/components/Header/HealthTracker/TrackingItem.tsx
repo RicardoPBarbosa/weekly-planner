@@ -1,9 +1,9 @@
-import type { FC, FocusEvent } from 'react'
+import type { FocusEvent, PropsWithChildren } from 'react'
 
 import { TrackingType } from '.'
 import { TrackingName } from 'src/store/constants'
 
-const Name: FC = ({ children }) => <div className="tracker-name">{children}</div>
+const Name = ({ children }: PropsWithChildren) => <div className="tracker-name">{children}</div>
 
 const weekDaysLetter = ['M', 'T', 'W', 'T', 'F', 'S', 'S']
 
@@ -14,7 +14,7 @@ type Props = {
   onChange: (changes: { [key: number]: boolean | number }) => void
 }
 
-const TrackingItem: FC<Props> = ({ name, week, type, onChange }) => {
+const TrackingItem = ({ name, week, type, onChange }: Props) => {
   const handleChange = (weekDay: number, value: string) => {
     const clone = { ...week }
     if (type === TrackingType.CHECKBOX) {
@@ -47,7 +47,7 @@ const TrackingItem: FC<Props> = ({ name, week, type, onChange }) => {
             <input
               type="checkbox"
               checked={Boolean(value)}
-              className="w-6 h-6 text-secondary focus:ring-primary rounded-full border-2 border-tertiary"
+              className="w-6 h-6 border-2 rounded-full text-secondary focus:ring-primary border-tertiary"
               onChange={(event) => handleChange(Number(weekDay), event.target.value)}
             />
           ) : (

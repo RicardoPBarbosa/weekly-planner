@@ -1,7 +1,6 @@
-import type { FC } from 'react'
 import { useState } from 'react'
-import 'react-day-picker/lib/style.css'
-import DayPicker from 'react-day-picker'
+import 'react-day-picker/dist/style.css'
+import { DayModifiers, DayPicker } from 'react-day-picker'
 
 import dayjs from 'src/lib/dayjs'
 import { Week } from 'src/store/week'
@@ -15,7 +14,7 @@ type Props = {
   createWeekEntry: (week: Week) => void
 }
 
-const WeekPicker: FC<Props> = ({ back, existingWeeks, createWeekEntry }) => {
+const WeekPicker = ({ back, existingWeeks, createWeekEntry }: Props) => {
   const [hoverRange, setHoverRange] = useState<WeekRange>()
   const [selectedWeek, setSelectedWeek] = useState<Date[]>([
     dayjs().subtract(1, 'week').startOf('week').toDate(),
@@ -39,14 +38,14 @@ const WeekPicker: FC<Props> = ({ back, existingWeeks, createWeekEntry }) => {
     }
   }
 
-  const modifiers = {
-    hoverRange,
+  const modifiers: DayModifiers = {
+    ...(hoverRange && { hoverRange }),
     selectedRange: {
       from: selectedWeek[0],
       to: selectedWeek[6],
     },
-    hoverRangeStart: hoverRange && hoverRange.from,
-    hoverRangeEnd: hoverRange && hoverRange.to,
+    ...(hoverRange && { hoverRangeStart: hoverRange.from }),
+    ...(hoverRange && { hoverRangeEnd: hoverRange.to }),
     selectedRangeStart: selectedWeek[0],
     selectedRangeEnd: selectedWeek[6],
   }
@@ -62,26 +61,27 @@ const WeekPicker: FC<Props> = ({ back, existingWeeks, createWeekEntry }) => {
     }))
 
   return (
-    <div className="flex flex-col items-start">
+    <div className="flex flex-col items-start mt-1">
       <DayPicker
-        weekdayElement={({ weekday }) => (
-          <span className="tracking-wide DayPicker-Weekday font-display">
-            {week[weekday].slice(0, 3)}
-          </span>
-        )}
-        renderDay={(date) => <div className="text-lg font-body">{date.getDate()}</div>}
-        renderWeek={(weekNumber) => (
-          <div className="text-lg tracking-wider font-display">{weekNumber}</div>
-        )}
-        firstDayOfWeek={1}
+        components={{
+          DayContent: ({ date }) => <div className="text-lg font-body">{date.getDate()}</div>,
+        }}
+        className="!m-0"
+        classNames={{
+          head_cell: 'tracking-wide font-display text-sm text-gray-500',
+        }}
+        formatters={{
+          formatWeekdayName: (weekday) => week[weekday.getDay()].slice(0, 3),
+        }}
+        weekStartsOn={1}
         showOutsideDays
         modifiers={modifiers}
         onDayClick={handleWeekClick}
         onDayMouseEnter={handleDayEnter}
         onDayMouseLeave={handleDayLeave}
         toMonth={new Date()}
-        selectedDays={getWeekDays(selectedWeek[0])}
-        disabledDays={[
+        selected={getWeekDays(selectedWeek[0])}
+        disabled={[
           {
             after: dayjs().subtract(1, 'week').endOf('week').toDate(),
           },

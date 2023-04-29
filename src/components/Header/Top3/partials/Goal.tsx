@@ -1,4 +1,3 @@
-import type { FC } from 'react'
 import { useState, useEffect } from 'react'
 
 import type { TopTask } from 'src/store/data'
@@ -15,7 +14,7 @@ type Props = {
   updateWeekData: (task: TopTask) => void
 }
 
-const Goal: FC<Props> = ({ number, task, updateWeekData }) => {
+const Goal = ({ number, task, updateWeekData }: Props) => {
   const [goalText, setGoalText] = useState<string>(task?.text || '')
 
   useEffect(() => {

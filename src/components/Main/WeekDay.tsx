@@ -1,22 +1,21 @@
-import type { FC } from 'react'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, PropsWithChildren } from 'react'
 
 import { ReactComponent as ArrowLeftSvg } from 'src/assets/arrow-left.svg'
 
-const WeekDayName: FC = ({ children }) => (
-  <div className="relative w-min z-0">
-    <div className="bg-secondary text-tertiary font-display w-max px-2 rounded-tl-md rounded-tr-xl rounded-bl-xl rounded-br-md -mt-4 -ml-2 tracking-wide text-lg">
+const WeekDayName = ({ children }: PropsWithChildren) => (
+  <div className="relative z-0 w-min">
+    <div className="px-2 -mt-4 -ml-2 text-lg tracking-wide bg-secondary text-tertiary font-display w-max rounded-tl-md rounded-tr-xl rounded-bl-xl rounded-br-md">
       {children}
     </div>
   </div>
 )
 
-const NotesTitle: FC = ({ children }) => (
-  <div className="relative w-min z-0">
-    <div className="bg-primary text-white font-display w-max px-2 rounded-tl-md rounded-tr-xl rounded-bl-xl rounded-br-md -mt-3 -ml-2 tracking-wide transform -rotate-6">
+const NotesTitle = ({ children }: PropsWithChildren) => (
+  <div className="relative z-0 w-min">
+    <div className="px-2 -mt-3 -ml-2 tracking-wide text-white transform bg-primary font-display w-max rounded-tl-md rounded-tr-xl rounded-bl-xl rounded-br-md -rotate-6">
       {children}
     </div>
-    <ArrowLeftSvg className="w-5 h-5 absolute top-1 -right-5 transform -rotate-90" />
+    <ArrowLeftSvg className="absolute w-5 h-5 transform -rotate-90 top-1 -right-5" />
   </div>
 )
 
@@ -27,7 +26,7 @@ type Props = {
   prepareNextWeek?: () => void
 }
 
-const WeekDay: FC<Props> = ({ day, value, updateWeekData, prepareNextWeek }) => {
+const WeekDay = ({ day, value, updateWeekData, prepareNextWeek }: Props) => {
   const [text, setText] = useState<string>(value)
   const isNotesBlock = day === 'Notes'
 

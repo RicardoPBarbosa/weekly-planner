@@ -1,4 +1,3 @@
-import type { FC } from 'react'
 import { useState, useEffect } from 'react'
 
 import TrackingItem from './TrackingItem'
@@ -12,10 +11,10 @@ export enum TrackingType {
   NUMBER,
 }
 
-const LocalTitle: FC = () => (
+const LocalTitle = () => (
   <div className="relative w-min -z-10">
     <Title className="transform -rotate-2">Health tracker</Title>
-    <ArrowRightSvg className="w-6 h-6 absolute -bottom-6 -right-6" />
+    <ArrowRightSvg className="absolute w-6 h-6 -bottom-6 -right-6" />
   </div>
 )
 
@@ -27,7 +26,7 @@ type Props = {
   ) => void
 }
 
-const HealthTracker: FC<Props> = ({ tracker, updateWeekData }) => {
+const HealthTracker = ({ tracker, updateWeekData }: Props) => {
   const [trackingInfo, setTrackingInfo] = useState<Tracker>(tracker || DEFAULT_TRACKER)
 
   useEffect(() => {
@@ -46,7 +45,7 @@ const HealthTracker: FC<Props> = ({ tracker, updateWeekData }) => {
 
   return (
     <div className="health-tracker-container">
-      <div className="space-y-2 pb-4 sm:pb-0">
+      <div className="pb-4 space-y-2 sm:pb-0">
         <LocalTitle />
         <TrackingItem
           name={TrackingName.EXERCISE}

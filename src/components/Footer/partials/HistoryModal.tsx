@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import type { FC, ReactElement } from 'react'
+import type { ReactElement } from 'react'
 
 import History from './History'
 import dayjs from 'src/lib/dayjs'
@@ -15,7 +15,7 @@ type Props = {
   close: () => void
 }
 
-const HistoryModal: FC<Props> = ({ close }) => {
+const HistoryModal = ({ close }: Props) => {
   const [currentView, setCurrentView] = useState<ModalViews>(ModalViews.HISTORY)
   const [reviewYear, setReviewYear] = useState<number>(dayjs().year())
   const data = useDataStore(({ data }) => data)

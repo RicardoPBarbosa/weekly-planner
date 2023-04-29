@@ -1,5 +1,5 @@
-import type { FC } from 'react'
 import { useState, useEffect } from 'react'
+import type { PropsWithChildren } from 'react'
 
 import { MoodType } from 'src/types'
 import { moods } from 'src/helpers/moods'
@@ -11,7 +11,7 @@ type MoodProps = {
   onClick: () => void
 }
 
-const Mood: FC<MoodProps> = ({ children, onClick, active }) => (
+const Mood = ({ children, onClick, active }: MoodProps & PropsWithChildren) => (
   <button
     className={`transition-all ${active ? 'emoji-active' : 'hover:opacity-60'}`}
     onClick={onClick}
@@ -25,7 +25,7 @@ type Props = {
   updateWeekData: (data: Partial<Data>) => void
 }
 
-const WeekMood: FC<Props> = ({ weekData, updateWeekData }) => {
+const WeekMood = ({ weekData, updateWeekData }: Props) => {
   const [selectedMood, setSelectedMood] = useState<MoodType | null | undefined>(weekData?.mood)
 
   useEffect(() => {

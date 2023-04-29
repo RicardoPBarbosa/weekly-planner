@@ -1,5 +1,7 @@
-import type { FC } from 'react'
+import { PropsWithChildren } from 'react'
 
-const GoalNumber: FC = ({ children }) => <div className="goal-number">{children}</div>
+const GoalNumber = ({ children }: PropsWithChildren) => (
+  <div className="goal-number">{children}</div>
+)
 
 export default GoalNumber

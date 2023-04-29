@@ -1,5 +1,3 @@
-import type { FC } from 'react'
-
 type Type = 'offline' | 'syncing' | 'synced'
 
 const typeStyles = (type: Type): string => {
@@ -20,7 +18,7 @@ type Props = {
   type: Type | null
 }
 
-const Notification: FC<Props> = ({ type }) =>
+const Notification = ({ type }: Props) =>
   type && (
     <div
       className={`fixed h-10 flex justify-center items-center w-full text-white font-display tracking-wider text-lg z-50 ${typeStyles(

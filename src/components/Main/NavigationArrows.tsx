@@ -1,5 +1,5 @@
 import dayjs from 'dayjs'
-import React, { FC, ReactElement, useMemo } from 'react'
+import React, { ReactElement, useMemo } from 'react'
 
 import useCurrentWeekStore, { Week } from 'src/store/week'
 import { ReactComponent as ArrowLeftSvg } from 'src/assets/arrow-left.svg'
@@ -28,7 +28,7 @@ const ArrowElement = ({ icon, onClick, disabled, direction }: ArrowProps) => {
   )
 }
 
-const NavigationArrows: FC = () => {
+const NavigationArrows = () => {
   const { current, setCurrentWeek } = useCurrentWeekStore((state) => state)
   const previousWeek: Week = useMemo(() => {
     const prevWeekDay = dayjs(current[0]).subtract(1, 'day')
