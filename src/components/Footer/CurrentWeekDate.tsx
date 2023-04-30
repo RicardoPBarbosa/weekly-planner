@@ -21,7 +21,7 @@ const CurrentWeekDate = ({ currentWeek }: Props) => {
   }
 
   return (
-    <div className="footer-date-container">
+    <div className="flex flex-wrap items-end justify-center flex-1 space-x-2 md:justify-end sm:flex-nowrap">
       <h2 className="text-lg font-display text-tertiary">Date</h2>
       <div className="flex">
         <DateNumber>{week.start[0]}</DateNumber>

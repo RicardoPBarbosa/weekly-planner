@@ -147,7 +147,6 @@ const YearReview = ({ back, reviewYear }: Props) => {
             </span>
           </p>
         </div>
-        <b></b>
       </div>
       <button className="go-back-btn" onClick={back}>
         &lt;- Go back

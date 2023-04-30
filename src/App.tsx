@@ -29,7 +29,7 @@ const App = () => {
   const [syncing, setSyncing] = useState<boolean>(false)
   const [prepareNextWeek, setPrepareNextWeek] = useState(false)
   const [finishedSyncing, setFinishedSyncing] = useState<boolean>(false)
-  const { data: user, isLoading } = useAuthUser(['user'], auth)
+  const { data: user, isLoading, isStale } = useAuthUser(['user'], auth)
   const synced = useRef(false)
   const isOffline = useNetworkStatus()
   const currentWeek = useCurrentWeekStore(({ current }) => current)
@@ -112,6 +112,15 @@ const App = () => {
 
   const notify = isOffline ? 'offline' : syncing ? 'syncing' : finishedSyncing ? 'synced' : null
 
+  const actionsElement = (
+    <Actions
+      authenticated={!!user}
+      signIn={() => signInWithPopup(auth, new GoogleAuthProvider())}
+      signOut={() => signOut(auth)}
+      loading={!isStale && isLoading}
+    />
+  )
+
   return (
     <>
       <Notification type={notify} />
@@ -120,14 +129,7 @@ const App = () => {
       >
         <header className="header">
           <Logo />
-          <div className="flex flex-1 xs:hidden">
-            <Actions
-              authenticated={!!user}
-              signIn={() => signInWithPopup(auth, new GoogleAuthProvider())}
-              signOut={() => signOut(auth)}
-              loading={isLoading}
-            />
-          </div>
+          <div className="flex xs:hidden">{actionsElement}</div>
           <Top3
             topThree={currentWeekData?.topThree || []}
             updateWeekData={(task) => handleUpdateData(buildTopThreeObject(currentWeekData, task))}
@@ -170,17 +172,10 @@ const App = () => {
             />
           )}
         </main>
-        <footer className="footer">
+        <footer className="flex flex-wrap items-center justify-between mb-5 mt-9 sm:gap-5 gap-7">
           <WeekMood weekData={currentWeekData} updateWeekData={handleUpdateData} />
           <CurrentWeekDate currentWeek={currentWeek} />
-          <div className="flex-1 hidden xs:flex">
-            <Actions
-              authenticated={!!user}
-              signIn={() => signInWithPopup(auth, new GoogleAuthProvider())}
-              signOut={() => signOut(auth)}
-              loading={isLoading}
-            />
-          </div>
+          <div className="flex-initial hidden xl:flex-1 xs:flex">{actionsElement}</div>
         </footer>
       </div>
     </>

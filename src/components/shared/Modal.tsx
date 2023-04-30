@@ -1,13 +1,14 @@
-import type { PropsWithChildren } from 'react'
+import type { PropsWithChildren, ReactNode } from 'react'
 import { RiCloseLine } from 'react-icons/ri'
 
 type Props = {
   title?: string
   onClick: () => void
+  additionalEl?: ReactNode
   modalStyles?: string
 } & PropsWithChildren
 
-const Modal = ({ children, title, onClick, modalStyles }: Props) => (
+const Modal = ({ children, title, onClick, modalStyles, additionalEl }: Props) => (
   <div
     className="fixed inset-0 z-50 flex items-center justify-center w-screen h-screen bg-gray-800 bg-opacity-30 modal"
     onClick={onClick}
@@ -18,8 +19,11 @@ const Modal = ({ children, title, onClick, modalStyles }: Props) => (
       }`}
       onClick={(e) => e.stopPropagation()}
     >
-      <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-display text-primary">{title || ''}</h1>
+      <div className="flex items-center justify-between pb-2">
+        <div className="flex items-center gap-2">
+          <h1 className="pt-1 text-2xl font-display text-primary">{title || ''}</h1>
+          {!!additionalEl && additionalEl}
+        </div>
         <button
           onClick={onClick}
           className="flex items-center justify-center w-8 h-8 transition-all hover:opacity-60"

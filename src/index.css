@@ -55,10 +55,6 @@ input[type=number] {
   @apply relative grid grid-flow-row grid-cols-1 grid-rows-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-3 gap-y-5 mt-9;
 }
 
-.footer {
-  @apply flex flex-wrap items-center justify-between mb-5 space-x-0 mt-9 sm:space-x-5 space-y-7 lg:space-y-0;
-}
-
 .goal-number {
   @apply flex items-center justify-center w-6 h-6 pt-1 text-xl bg-gradient-to-r from-secondary to-primary rounded-tl-md rounded-tr-xl rounded-bl-xl rounded-br-md font-display text-tertiary;
 }
@@ -155,14 +151,6 @@ input[type=number] {
 
 .modal {
   @apply !m-0;
-}
-
-.footer-date-container {
-  @apply flex flex-wrap items-end justify-center space-x-2 md:justify-end md:flex-1 sm:flex-nowrap;
-}
-
-.footer-actions-container {
-  @apply flex justify-center flex-1 space-x-3 sm:space-x-5 sm:ml-8 lg:flex-initial lg:justify-end;
 }
 
 /* React Day Picker */

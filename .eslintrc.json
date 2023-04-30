@@ -34,7 +34,7 @@
         "no-console": ["error", { "allow": ["error"] }],
         "complexity": ["error", 10],
         "max-len": ["error", {
-            "code": 100,
+            "code": 200,
             "ignorePattern": "className",
             "ignoreUrls": true
         }],
