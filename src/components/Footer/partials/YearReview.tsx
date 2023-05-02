@@ -1,8 +1,8 @@
-import dayjs from 'dayjs'
 import { useMemo } from 'react'
 import type { ReactNode } from 'react'
 import { BsArrowReturnRight } from 'react-icons/bs'
 
+import dayjs from 'src/lib/dayjs'
 import { MoodType } from 'src/types'
 import { moods } from 'src/helpers/moods'
 import useDataStore from 'src/store/data'

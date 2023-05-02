@@ -1,6 +1,6 @@
-import dayjs from 'dayjs'
 import React, { ReactElement, useMemo } from 'react'
 
+import dayjs from 'src/lib/dayjs'
 import useCurrentWeekStore, { Week } from 'src/store/week'
 import { ReactComponent as ArrowLeftSvg } from 'src/assets/arrow-left.svg'
 import { ReactComponent as ArrowRightSvg } from 'src/assets/arrow-right.svg'

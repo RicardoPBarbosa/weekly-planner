@@ -1,8 +1,9 @@
 import { Data } from './data'
 import dayjs from 'src/lib/dayjs'
 import { DEFAULT_WEEK } from './week'
-import { upsertData } from 'src/database'
 import { isSameWeek } from 'src/helpers/date'
+import { upsertData, upsertYearData } from 'src/database'
+import { UpdatedEntry, Year, YearEntry } from './year-view'
 import { DEFAULT_TRACKER, TrackingName } from './constants'
 
 const createWeekEntry = (newWeekData: Partial<Data>): Data => {
@@ -41,7 +42,7 @@ const addNewEntry = (data: Data[], entry: Data): Data[] => {
   return data
 }
 
-const manageWeekEntry = (data: Data[], weekData: Partial<Data>, withAuth: boolean): Data[] => {
+const manageWeekEntry = (data: Data[], weekData: Partial<Data>, withAuth: boolean) => {
   if (weekData.week && weekData.week.length === 2) {
     const [startOfWeek, endOfWeek] = weekData.week
     const weekToEditIndex = data.findIndex(({ week }) => isSameWeek([startOfWeek, endOfWeek], week))
@@ -63,4 +64,58 @@ const manageWeekEntry = (data: Data[], weekData: Partial<Data>, withAuth: boolea
   return data
 }
 
-export { manageWeekEntry }
+const addOrUpdateEntry = (entries: YearEntry[], entry: UpdatedEntry) => {
+  const existingEntry = entries.find(
+    (e) => e.month === entry.date.month && e.day === entry.date.day
+  )
+  if (existingEntry) {
+    if (entry.content.trim().length) {
+      return entries.map((e) => {
+        if (e.month === entry.date.month && e.day === entry.date.day) {
+          return {
+            ...e,
+            content: entry.content,
+          }
+        }
+        return e
+      })
+    } else {
+      return entries.filter((e) => !(e.month === entry.date.month && e.day === entry.date.day))
+    }
+  }
+
+  return [...entries, { month: entry.date.month, day: entry.date.day, content: entry.content }]
+}
+
+const manageYearUpdate = (data: Year[], entry: UpdatedEntry, withAuth: boolean) => {
+  const newEntry = {
+    month: entry.date.month,
+    day: entry.date.day,
+    content: entry.content,
+  }
+  const currentYearIndex = data.findIndex(({ year }) => year === entry.date.year)
+  if (currentYearIndex > -1) {
+    const updatedYearEntries = addOrUpdateEntry(data[currentYearIndex].entries, entry)
+    data[currentYearIndex] = {
+      ...data[currentYearIndex],
+      entries: updatedYearEntries,
+    }
+    if (withAuth && entry.userId) {
+      upsertYearData(entry.date.year, updatedYearEntries, entry.userId)
+    }
+  } else {
+    data.push({
+      year: entry.date.year,
+      entries: [newEntry],
+      updatedAt: dayjs(),
+      userId: entry.userId || '',
+    })
+    if (withAuth && entry.userId) {
+      upsertYearData(entry.date.year, [newEntry], entry.userId)
+    }
+  }
+
+  return data
+}
+
+export { manageWeekEntry, manageYearUpdate }

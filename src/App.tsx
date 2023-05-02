@@ -1,10 +1,8 @@
-import type { User } from 'firebase/auth'
 import { useState, useEffect, useRef } from 'react'
 import { useAuthUser } from '@react-query-firebase/auth'
 import { GoogleAuthProvider, signInWithPopup, signOut } from 'firebase/auth'
 
 import dayjs from 'src/lib/dayjs'
-import { syncData } from 'src/database'
 import { auth } from 'src/lib/firebase'
 import useDataStore from 'src/store/data'
 import { isSameWeek } from 'src/helpers/date'
@@ -12,10 +10,12 @@ import Top3 from 'src/components/Header/Top3'
 import Logo from 'src/components/Header/Logo'
 import useCurrentWeekStore from 'src/store/week'
 import WeekDay from 'src/components/Main/WeekDay'
+import { syncData, syncYears } from 'src/database'
 import Actions from 'src/components/Footer/Actions'
 import type { Data, TopTask } from 'src/store/data'
 import WeekMood from 'src/components/Footer/WeekMood'
 import useNetworkStatus from 'src/hooks/useNetworkStatus'
+import useYearlyViewStore, { Year } from './store/year-view'
 import Notification from 'src/components/shared/Notification'
 import HealthTracker from 'src/components/Header/HealthTracker'
 import NavigationArrows from 'src/components/Main/NavigationArrows'
@@ -34,31 +34,38 @@ const App = () => {
   const isOffline = useNetworkStatus()
   const currentWeek = useCurrentWeekStore(({ current }) => current)
   const { data, setData, updateWeek } = useDataStore((state) => state)
+  const { years, setYears } = useYearlyViewStore((state) => state)
   const currentWeekData = useDataStore((state) =>
     state.data.find(({ week }) => isSameWeek(week, currentWeek))
   )
 
-  const handleSyncData = async (d: Data[], user: User): Promise<ReturnType<typeof setTimeout>> => {
-    setSyncing(true)
-    const response = await syncData(d, user.uid)
-    if ((response as Data[]).length) {
-      setData(response as Data[])
-    }
-    setSyncing(false)
-    synced.current = true
-    setFinishedSyncing(true)
-    const timer = setTimeout(() => {
-      setFinishedSyncing(false)
-    }, 1500)
+  const handleSyncData = async (): Promise<ReturnType<typeof setTimeout> | undefined> => {
+    if (user) {
+      setSyncing(true)
+      const dataResponse = await syncData(data, user.uid)
+      const yearsResponse = await syncYears(years, user.uid)
+      if ((dataResponse as Data[]).length) {
+        setData(dataResponse as Data[])
+      }
+      if ((yearsResponse as Year[]).length) {
+        setYears(yearsResponse as Year[])
+      }
+      setSyncing(false)
+      synced.current = true
+      setFinishedSyncing(true)
+      const timer = setTimeout(() => {
+        setFinishedSyncing(false)
+      }, 1500)
 
-    return timer
+      return timer
+    }
   }
 
   useEffect(() => {
-    let timer: ReturnType<typeof setTimeout>
+    let timer: ReturnType<typeof setTimeout> | undefined
     if (!isOffline && !synced.current && !!user) {
       ;(async () => {
-        timer = await handleSyncData(data, user)
+        timer = await handleSyncData()
       })()
     }
 

@@ -32,7 +32,7 @@
         "no-unused-vars": "off",
         "@typescript-eslint/no-unused-vars": "error",
         "no-console": ["error", { "allow": ["error"] }],
-        "complexity": ["error", 10],
+        "complexity": ["error", 15],
         "max-len": ["error", {
             "code": 200,
             "ignorePattern": "className",

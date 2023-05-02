@@ -4,6 +4,7 @@ import dayjs from 'src/lib/dayjs'
 import { DEFAULT_TRACKER } from 'src/store/constants'
 import type { TrackingName } from 'src/store/constants'
 import type { Data, TopTask, Tracker } from 'src/store/data'
+import { Year } from 'src/store/year-view'
 
 const buildWeekDaysObject = (data: Data | undefined, index: number, value: string) => {
   let weekTasks: { [key: number]: string } = {}
@@ -48,8 +49,8 @@ const buildTrackerObject = (
   return { tracker }
 }
 
-const assignUserToData = (data: Data[], userId: string) =>
-  data.map((row) => {
+const assignUserToData = <T>(data: T[], userId: string): T[] =>
+  data.map((row: any) => {
     if (!row.userId?.length) {
       row.userId = userId
     }
@@ -63,10 +64,17 @@ const convertFirebaseDataToLocal = (id: string, data: DocumentData): Data => ({
   updatedAt: dayjs(data.updatedAt),
 })
 
+const convertFirebaseYearToLocal = (id: string, data: DocumentData): Year => ({
+  ...(data as Year),
+  id,
+  updatedAt: dayjs(data.updatedAt),
+})
+
 export {
   buildWeekDaysObject,
   buildTopThreeObject,
   buildTrackerObject,
   assignUserToData,
   convertFirebaseDataToLocal,
+  convertFirebaseYearToLocal,
 }

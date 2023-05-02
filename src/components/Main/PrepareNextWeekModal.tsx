@@ -1,12 +1,12 @@
-import dayjs from 'dayjs'
 import { useState, useEffect } from 'react'
 
+import dayjs from 'src/lib/dayjs'
+import { Week } from 'src/store/week'
 import useDataStore from 'src/store/data'
 import { isSameWeek } from 'src/helpers/date'
 import type { TopTask } from 'src/store/data'
 import Modal from 'src/components/shared/Modal'
 import GoalNumber from 'src/components/shared/GoalNumber'
-import { Week } from 'src/store/week'
 
 type GoalRowProps = {
   number: number

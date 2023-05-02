@@ -12,23 +12,52 @@ import {
 } from 'firebase/firestore'
 
 import type { Data } from 'src/store/data'
-import { converter, db } from 'src/lib/firebase'
+import { Year, YearEntry } from 'src/store/year-view'
+import { converter, db, yearConverter } from 'src/lib/firebase'
 import { isBeforeOrSameDate, isSameWeek } from 'src/helpers/date'
-import { assignUserToData, convertFirebaseDataToLocal } from 'src/helpers/data'
+import {
+  assignUserToData,
+  convertFirebaseDataToLocal,
+  convertFirebaseYearToLocal,
+} from 'src/helpers/data'
 
-const COLLECTION_NAME = 'planners'
+const collections = {
+  years: 'years',
+  planners: 'planners',
+} as const
+
+const dumpDBData = async (userId: string) => {
+  return await Promise.all(
+    Object.keys(collections).map(async (collectionName) => {
+      const q = query(collection(db, collectionName), where('userId', '==', userId))
+      const querySnapshot = await getDocs(q)
+
+      if (!querySnapshot.empty) {
+        return {
+          collection: collectionName,
+          data: querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })),
+        }
+      }
+    })
+  )
+}
 
 const fetchData = async (
   userId: string,
-  upsert: boolean = false
-): Promise<Data[] | null | QuerySnapshot<DocumentData>> => {
-  const q = query(collection(db, COLLECTION_NAME), where('userId', '==', userId))
+  upsert: boolean = false,
+  collectionName: keyof typeof collections = collections.planners
+): Promise<Data[] | Year[] | null | QuerySnapshot<DocumentData>> => {
+  const q = query(collection(db, collectionName), where('userId', '==', userId))
   const querySnapshot = await getDocs(q)
   if (upsert) {
     return querySnapshot
   }
   if (!querySnapshot.empty) {
-    return querySnapshot.docs.map((doc) => convertFirebaseDataToLocal(doc.id, doc.data()))
+    if (collectionName === 'planners') {
+      return querySnapshot.docs.map((doc) => convertFirebaseDataToLocal(doc.id, doc.data()))
+    } else {
+      return querySnapshot.docs.map((doc) => convertFirebaseYearToLocal(doc.id, doc.data()))
+    }
   }
 
   return null
@@ -41,7 +70,7 @@ const upsertData = async (data: Data[], userId: string) => {
     if (existingData) {
       setDoc(existingData.ref.withConverter(converter), dataRow, { merge: true })
     } else {
-      const ref = doc(collection(db, COLLECTION_NAME)).withConverter(converter)
+      const ref = doc(collection(db, collections.planners)).withConverter(converter)
       setDoc(ref, dataRow)
     }
   })
@@ -49,7 +78,7 @@ const upsertData = async (data: Data[], userId: string) => {
 
 const syncData = async (data: Data[], userId: string): Promise<Data[] | Error> => {
   const dbData = (await fetchData(userId)) as Data[] | null
-  const newDataObject = assignUserToData(data, userId)
+  const newDataObject = assignUserToData<Data>(data, userId)
   if (!dbData || !dbData.length) {
     if (newDataObject.length) {
       await upsertData(newDataObject, userId)
@@ -88,7 +117,7 @@ const syncData = async (data: Data[], userId: string): Promise<Data[] | Error> =
 
 const removeDuplicateFromDb = async (entryId?: string) => {
   if (entryId) {
-    await deleteDoc(doc(db, COLLECTION_NAME, entryId))
+    await deleteDoc(doc(db, collections.planners, entryId))
   }
 }
 
@@ -123,4 +152,64 @@ const removeDuplicatedData = async (userId: string): Promise<Data[]> => {
   return deduplicated
 }
 
-export { upsertData, syncData, removeDuplicatedData }
+const syncYears = async (years: Year[], userId: string): Promise<Year[] | Error> => {
+  const dbData = (await fetchData(userId, false, 'years')) as Year[] | null
+  const newDataObject = assignUserToData<Year>(years, userId)
+  if (!dbData || !dbData.length) {
+    if (newDataObject.length) {
+      newDataObject.forEach(async (row) => {
+        await upsertYearData(row.year, row.entries, userId)
+      })
+    }
+    return newDataObject
+  }
+  if (newDataObject.length) {
+    const newOrUpdatedEntries: Year[] = []
+    const existingDbRows: number[] = []
+    newDataObject.forEach((dataRow, index) => {
+      const rowIndex = dbData?.findIndex((row) => row.year, dataRow.year)
+      existingDbRows.push(rowIndex)
+      const dbRow = dbData[rowIndex]
+      if (dbRow && isBeforeOrSameDate(dataRow.updatedAt, dbRow.updatedAt)) {
+        // Update local data
+        newDataObject[index] = dbRow
+      } else {
+        // Will update remote data
+        newOrUpdatedEntries.push(dataRow)
+      }
+    })
+    if (newOrUpdatedEntries.length) {
+      newOrUpdatedEntries.forEach(async (row) => {
+        await upsertYearData(row.year, row.entries, userId)
+      })
+    }
+
+    if (existingDbRows.length !== dbData.length) {
+      const newLocalEntries = dbData.filter((_, index) => !existingDbRows.includes(index))
+      newDataObject.push(...newLocalEntries)
+    }
+
+    return newDataObject
+  }
+
+  return dbData
+}
+
+const upsertYearData = async (year: number, entries: YearEntry[], userId: string) => {
+  const yearData: Year = {
+    year,
+    entries,
+    userId,
+    updatedAt: dayjs(),
+  }
+  const querySnapshot = (await fetchData(userId, true, 'years')) as QuerySnapshot<DocumentData>
+  const existingData = querySnapshot.docs.find((doc) => doc.data().year === year)
+  if (existingData) {
+    setDoc(existingData.ref.withConverter(yearConverter), yearData, { merge: true })
+  } else {
+    const ref = doc(collection(db, collections.years)).withConverter(yearConverter)
+    setDoc(ref, yearData)
+  }
+}
+
+export { upsertData, syncData, removeDuplicatedData, upsertYearData, syncYears, dumpDBData }

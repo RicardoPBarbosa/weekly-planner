@@ -5,7 +5,8 @@ import type { DocumentSnapshot, SnapshotOptions } from 'firebase/firestore'
 
 import dayjs from 'src/lib/dayjs'
 import type { Data } from 'src/store/data'
-import { convertFirebaseDataToLocal } from 'src/helpers/data'
+import { Year } from 'src/store/year-view'
+import { convertFirebaseDataToLocal, convertFirebaseYearToLocal } from 'src/helpers/data'
 
 const {
   VITE_CLIENT_FB_API_KEY,
@@ -43,5 +44,18 @@ export const converter = {
   fromFirestore: (snapshot: DocumentSnapshot, options: SnapshotOptions): Data => {
     const plannerRow = snapshot.data(options) as Data
     return convertFirebaseDataToLocal(snapshot.id, plannerRow)
+  },
+}
+
+export const yearConverter = {
+  toFirestore: (plannerRow: Year) => {
+    return {
+      ...plannerRow,
+      updatedAt: dayjs(plannerRow.updatedAt).toString(),
+    }
+  },
+  fromFirestore: (snapshot: DocumentSnapshot, options: SnapshotOptions): Year => {
+    const plannerRow = snapshot.data(options) as Year
+    return convertFirebaseYearToLocal(snapshot.id, plannerRow)
   },
 }

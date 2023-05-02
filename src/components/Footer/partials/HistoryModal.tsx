@@ -10,6 +10,7 @@ import useDataStore from 'src/store/data'
 import type { Week } from 'src/store/week'
 import Modal from 'src/components/shared/Modal'
 import useCurrentWeekStore from 'src/store/week'
+import { Export } from './Export'
 
 type Props = {
   close: () => void
@@ -63,6 +64,7 @@ const HistoryModal = ({ close }: Props) => {
   return (
     <Modal
       title={render[currentView].title}
+      additionalEl={currentView === ModalViews.HISTORY ? <Export /> : null}
       onClick={close}
       modalStyles={currentView === ModalViews.YEARREVIEW ? undefined : 'max-w-md'}
     >

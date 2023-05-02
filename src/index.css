@@ -48,7 +48,7 @@ input[type=number] {
 }
 
 .header {
-  @apply flex flex-wrap items-center justify-between space-x-1 space-y-5 overflow-x-hidden md:space-x-5 lg:flex-nowrap;
+  @apply flex flex-wrap items-center justify-between space-x-1 space-y-5 overflow-hidden md:space-x-5 lg:flex-nowrap;
 }
 
 .main-container {
@@ -72,8 +72,7 @@ input[type=number] {
 }
 
 .drop-input {
-  @apply p-0 mt-2 -ml-1 text-sm font-semibold text-center -rotate-45 border-2 rounded-full w-7 h-7 font-body text-tertiary border-tertiary focus:shadow-none focus:ring-primary focus:ring-2 focus:border-tertiary;
-  border-top-right-radius: 0;
+  @apply p-0 mt-2 -ml-1 overflow-hidden text-sm font-semibold text-center -rotate-45 border-2 rounded-full rounded-tr-none w-7 h-7 font-body text-tertiary border-tertiary focus:shadow-none focus:ring-primary focus:ring-2 focus:border-tertiary;
 }
 
 .health-tracker-container {
