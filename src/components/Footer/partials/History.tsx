@@ -136,7 +136,7 @@ const History = ({ close, setCurrentView }: Props) => {
       <div className="flex justify-center">
         <button className="create-btn" onClick={() => setCurrentView(ModalViews.WEEKPICKER)}>
           <HiOutlineCalendar size={20} />
-          <span className="font-display">Create an entry on the past</span>
+          <span className="font-display">Create an entry in the past</span>
         </button>
       </div>
     </>
