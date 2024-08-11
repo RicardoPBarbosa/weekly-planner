@@ -2,7 +2,7 @@
 
 ![Weekly Planner Cover](./cover.png)
 
-[![Visit the app](https://img.shields.io/badge/Go-to_the_app-red.svg?style=flat-square)](https://weekly-planner-ricardopbarbosa.vercel.app)
+[![Visit the app](https://img.shields.io/badge/Go-to_the_app-red.svg?style=flat-square)](https://planner-ricardopbarbosa.vercel.app)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 [![first-timers-only Friendly](https://img.shields.io/badge/first--timers--only-friendly-blue.svg)](http://www.firsttimersonly.com/)
 
